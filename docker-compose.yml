@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: booking
+      POSTGRES_PASSWORD: booking
+      POSTGRES_DB: booking
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U booking"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://booking:booking@db:5432/booking
+      SECRET_KEY: ${SECRET_KEY:-change-me-change-me-change-me-change-me}
+      OWNER_EMAIL: ${OWNER_EMAIL:-owner@example.com}
+      OWNER_PASSWORD: ${OWNER_PASSWORD:-change this password}
+      DEFAULT_TIMEZONE: ${DEFAULT_TIMEZONE:-America/New_York}
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

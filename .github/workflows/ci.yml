@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check app tests
+      - run: ruff format --check app tests
+      - run: mypy
+      - run: pytest
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image and start the stack (Postgres + migrations + API)
+        run: docker compose up -d --build
+      - name: Wait for /health
+        run: |
+          for i in $(seq 1 40); do
+            if curl -fsS http://localhost:8000/health; then exit 0; fi
+            sleep 2
+          done
+          docker compose logs
+          exit 1
+      - name: Smoke test a booking flow on Postgres
+        run: |
+          TOKEN=$(curl -fsS -X POST localhost:8000/auth/login -H 'content-type: application/json' \
+            -d '{"email":"owner@example.com","password":"change this password"}' | python3 -c 'import json,sys; print(json.load(sys.stdin)["access_token"])')
+          curl -fsS -X POST localhost:8000/services -H "authorization: Bearer $TOKEN" \
+            -H 'content-type: application/json' -d '{"name":"Haircut","duration_minutes":30}'
+      - if: failure()
+        run: docker compose logs
