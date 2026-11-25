@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 import shutil
+import sys
 import zipfile
 from pathlib import Path
 
@@ -22,6 +24,10 @@ def build(out: Path = ROOT / "_site") -> Path:
         for m in MODULES:
             z.write(ROOT / "app" / m, f"app/{m}")
         z.write(DEMO / "booking_demo.py", "booking_demo.py")
+    sys.path.insert(0, str(DEMO))
+    from page_meta import apply  # title, description and share preview
+
+    apply(out, json.loads((DEMO / "meta.json").read_text(encoding="utf-8")), ROOT)
     return out
 
 

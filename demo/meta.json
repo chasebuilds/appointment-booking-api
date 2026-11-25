@@ -1,0 +1,7 @@
+{
+  "title": "Appointment Booking API: Timezone-correct slots with no double-booking | Chase Builds",
+  "description": "FastAPI appointment booking backend: staff availability, timezone-correct slots and no double-booking. Try the real slot and booking logic in your browser.",
+  "url": "https://chasebuilds.github.io/appointment-booking-api/",
+  "image": "docs/demo.png",
+  "repo": "appointment-booking-api"
+}
