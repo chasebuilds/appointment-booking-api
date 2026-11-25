@@ -195,3 +195,11 @@ hits `/health`.
 ## License
 
 MIT, see [LICENSE](LICENSE).
+
+## More from Chase Builds
+
+- **[sheets-automations](https://github.com/chasebuilds/sheets-automations)**: Google Sheets that send summaries, invoices, overdue reminders and low-stock alerts on their own. ([live demo](https://chasebuilds.github.io/sheets-automations/))
+- **[field-service-pwa](https://github.com/chasebuilds/field-service-pwa)**: Phone app for crews: job tickets, photos, parts, time, customer signature and invoice. Works with no signal. ([live demo](https://chasebuilds.github.io/field-service-pwa/))
+- **[faceless-video-pipeline](https://github.com/chasebuilds/faceless-video-pipeline)**: Unattended pipeline: scout -> local LLM script -> ffmpeg render -> automated QC -> upload.
+
+[All projects, sorted by industry](https://github.com/chasebuilds) · [chasebuilds.github.io](https://chasebuilds.github.io)
