@@ -2,14 +2,16 @@
 
 [![CI](https://github.com/chasebuilds/appointment-booking-api/actions/workflows/ci.yml/badge.svg)](https://github.com/chasebuilds/appointment-booking-api/actions/workflows/ci.yml)
 
+**[Live demo: try it in your browser](https://chasebuilds.github.io/appointment-booking-api/)**. Pick staff, a day and your time zone, book a slot, then watch a double booking get refused. The real slot engine and booking code run in the page (Pyodide, SQLite in memory); the FastAPI server, auth and Postgres do not.
+
+[![The live demo after booking a slot: open slots in two time zones, a refused double booking and the booking table](docs/demo.png)](https://chasebuilds.github.io/appointment-booking-api/)
+
 A FastAPI backend for a small business that takes appointments: services, staff, weekly
 availability, time off, and bookings that cannot double-book. Customers book without an
 account. Owners and staff log in with JWT roles.
 
 Built by Chase Builds. Python 3.11+, SQLModel/SQLAlchemy, Alembic, SQLite for development,
 Postgres in Docker.
-
-![Generated OpenAPI docs at /docs](docs/openapi-docs.png)
 
 ## What it does
 
@@ -27,6 +29,8 @@ Postgres in Docker.
   them to `cancelled`. Nothing sends email: a worker would read `GET /reminders`.
 - **Auth.** JWT (HS256), roles `owner` and `staff`. Staff manage only their own availability
   and time off and see only their own bookings. Login is rate limited.
+
+![Generated OpenAPI docs at /docs](docs/openapi-docs.png)
 
 ## Architecture
 

@@ -9,3 +9,4 @@ __pycache__/
 .env
 docs/*.html
 *.egg-info/
+_site/
